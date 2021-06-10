@@ -68,7 +68,7 @@
     <Button
         android:id="@+id/btnCadastrar"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="50dp"
         android:layout_marginTop="30dp"
         android:text="CADASTRAR"
         android:textColor="@color/black"
