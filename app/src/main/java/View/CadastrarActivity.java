@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,39 +39,43 @@ public class CadastrarActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtSenha = findViewById(R.id.txtSenha);
         btnRealizarCadastro = findViewById(R.id.btnRealizarCadastro);
-    }
 
-    public void realizarCadastro(View view) {
-        String campoNome = txtNome.getText().toString();
-        String campoEmail = txtEmail.getText().toString();
-        String campoSenha = txtSenha.getText().toString();
+        btnRealizarCadastro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String campoNome = txtNome.getText().toString();
+                String campoEmail = txtEmail.getText().toString();
+                String campoSenha = txtSenha.getText().toString();
 
-        //Validação
-        if (!campoNome.isEmpty()) {
-            if (!campoEmail.isEmpty()) {
-                if (!campoSenha.isEmpty()) {
-                    usuario = new Usuario();
-                    usuario.setNome(campoNome);
-                    usuario.setEmail(campoEmail);
-                    usuario.setSenha(campoSenha);
-                    cadastrarUsuario();
+                //Validação
+                if (!campoNome.isEmpty()) {
+                    if (!campoEmail.isEmpty()) {
+                        if (!campoSenha.isEmpty()) {
+                            usuario = new Usuario();
+                            usuario.setNome(campoNome);
+                            usuario.setEmail(campoEmail);
+                            usuario.setSenha(campoSenha);
+                            cadastrarUsuario();
 
+                        } else {
+                            Toast.makeText(CadastrarActivity.this,
+                                    "Por favor, preencha a sua senha",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(CadastrarActivity.this,
+                                "Por favor, preencha o seu Email",
+                                Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this,
-                            "Por favor, preencha a sua senha",
+                    Toast.makeText(CadastrarActivity.this,
+                            "Por favor, preencha o seu Nome",
                             Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this,
-                        "Por favor, preencha o seu Email",
-                        Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(this,
-                    "Por favor, preencha o seu Nome",
-                    Toast.LENGTH_SHORT).show();
-        }
+        });
     }
+
 
     public void cadastrarUsuario() {
         autenticacao = ConfigFirebase.getFirebaseAutenticacao();
@@ -87,14 +90,14 @@ public class CadastrarActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
 
-                String excecao = "";
+                    String excecao = "";
 
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
                         excecao = ("Digite uma senha mais forte!");
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        excecao =("Por favor digite um e-mail válido!");
+                        excecao = ("Por favor digite um e-mail válido!");
                     } catch (FirebaseAuthUserCollisionException e) {
                         excecao = ("Essa conta já foi cadastrada!");
                     } catch (Exception e) {
