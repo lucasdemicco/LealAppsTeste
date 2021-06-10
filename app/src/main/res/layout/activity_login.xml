@@ -1,9 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backgroundshape"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context="View.LoginActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ImageView
+        android:id="@+id/logoMutant"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/mutant" />
+
+    <EditText
+        android:id="@+id/txtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/inputshape"
+        android:drawableLeft="@drawable/ic_baseline_email_24"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="Digite seu Email"
+        android:inputType="textEmailAddress"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/black" />
+
+    <EditText
+        android:id="@+id/txtSenha"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="40dp"
+        android:background="@drawable/inputshape"
+        android:drawableLeft="@drawable/ic_baseline_lock_24"
+        android:ems="10"
+        android:gravity="center_horizontal"
+        android:hint="Digite sua senha"
+        android:inputType="textPassword"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/black" />
+
+    <TextView
+        android:id="@+id/txtValidacao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/laranjaCustom"
+        android:text="" />
+
+    <Button
+        android:id="@+id/btnEntrar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:text="LOGIN"
+        android:textColor="@color/laranjaCustom"
+        app:backgroundTint="#00FFFFFF"
+        app:strokeColor="#FFA500"
+        app:strokeWidth="3dp" />
+
+    <Button
+        android:id="@+id/btnCadastrar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:text="CADASTRAR"
+        android:textColor="@color/black"
+        app:backgroundTint="#FFA500" />
+
+</LinearLayout>
