@@ -1,16 +1,12 @@
 package View;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.heinrichreimersoftware.materialintro.app.IntroActivity;
-import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
-import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
-import com.lucas.lealappsteste.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
+
+import com.heinrichreimersoftware.materialintro.app.IntroActivity;
+import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
+import com.lucas.lealappsteste.R;
 
 public class BemVindo extends IntroActivity {
 
@@ -39,5 +35,6 @@ public class BemVindo extends IntroActivity {
 
     public void irParaAuthActivity(View view) {
        startActivity(new Intent(this, LoginActivity.class));
+       finish();
     }
 }

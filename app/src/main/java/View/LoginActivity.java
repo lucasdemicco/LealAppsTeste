@@ -40,31 +40,33 @@ public class LoginActivity extends AppCompatActivity {
         txtSenha = findViewById(R.id.txtSenha);
         btnEntrar = findViewById(R.id.btnEntrar);
         btnCadastrar = findViewById(R.id.btnCadastrar);
-    }
 
-    public void login(View view) {
-        String campoEmail = txtEmail.getText().toString();
-        String campoSenha = txtSenha.getText().toString();
+        btnEntrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String campoEmail = txtEmail.getText().toString();
+                String campoSenha = txtSenha.getText().toString();
 
-        if( ! campoEmail.isEmpty()){
-            if(!campoSenha.isEmpty()){
+                if (!campoEmail.isEmpty()) {
+                    if (!campoSenha.isEmpty()) {
 
-            Usuario usuario = new Usuario();
-            usuario.setEmail(campoEmail);
-            usuario.setSenha(campoSenha);
-            validarLogin();
+                        usuario = new Usuario();
+                        usuario.setEmail(campoEmail);
+                        usuario.setSenha(campoSenha);
+                        validarLogin();
 
-
-            }else{
-                Toast.makeText(LoginActivity.this,
-                        "Preencha a senha!",
-                        Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this,
+                                "Preencha a senha!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(LoginActivity.this,
+                            "Preencha o e-mail!",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
-        }else{
-            Toast.makeText(LoginActivity.this,
-                    "Preencha o e-mail!",
-                    Toast.LENGTH_SHORT).show();
-        }
+        });
     }
 
     public void validarLogin(){
@@ -76,9 +78,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
-
+                    abrirTelaPrincipal();
                 }else{
-
                     String excecao = "";
                     try {
                         throw task.getException();
@@ -96,6 +97,11 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void abrirTelaPrincipal(){
+        startActivity(new Intent(LoginActivity.this, PrincipalActivity.class));
+        finish();
     }
 
     public void cadastrar(View view) {
