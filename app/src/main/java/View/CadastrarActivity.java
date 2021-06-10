@@ -1,5 +1,11 @@
 package View;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,12 +17,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.lucas.lealappsteste.R;
-
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -86,6 +86,7 @@ public class CadastrarActivity extends AppCompatActivity {
                     Toast.makeText(CadastrarActivity.this,
                             "Cadastrado com sucesso!",
                             Toast.LENGTH_SHORT).show();
+                    finish();
                 } else {
                     String excecao = "";
                     try {
