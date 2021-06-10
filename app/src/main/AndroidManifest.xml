@@ -12,6 +12,9 @@
         <activity android:name="View.MainActivity"
             android:screenOrientation="sensor"/>
         <activity
+            android:name="View.CadastrarActivity"
+            android:screenOrientation="sensor" />
+        <activity
             android:name="View.LoginActivity"
             android:screenOrientation="sensor" />
         <activity
