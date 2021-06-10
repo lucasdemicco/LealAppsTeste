@@ -22,7 +22,7 @@
         android:inputType="text"
         android:padding="5dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+        android:textColorHint="@color/black"/>
 
     <EditText
         android:id="@+id/txtEmail"
@@ -37,7 +37,7 @@
         android:inputType="textEmailAddress"
         android:padding="5dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+        android:textColorHint="@color/black"/>
 
     <EditText
         android:id="@+id/txtSenha"
@@ -52,18 +52,19 @@
         android:inputType="textPassword"
         android:padding="5dp"
         android:textColor="@color/black"
-        android:textColorHint="@color/black" />
+        android:textColorHint="@color/black"/>
 
     <Button
-        android:id="@+id/btnRealizarCadastro"
+        android:id="@+id/btnCadastro"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_marginTop="40dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         android:text="REALIZAR CADASTRO"
         android:textColor="@color/laranjaCustom"
         app:backgroundTint="#00FFFFFF"
-        app:strokeColor="#FFA500"
-        app:strokeWidth="3dp"
-        tools:ignore="OnClick" />
+        app:strokeColor="#FF9800"
+        app:strokeWidth="3dp" />
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

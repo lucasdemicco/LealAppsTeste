@@ -14,8 +14,6 @@ import android.widget.Button;
 
 public class BemVindo extends IntroActivity {
 
-    private Button btnGoAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +21,6 @@ public class BemVindo extends IntroActivity {
         setButtonBackVisible(false);
         setButtonNextVisible(false);
 
-        btnGoAuth = findViewById(R.id.btnGoAuth);
 
         addSlide(new FragmentSlide.Builder()
                 .background(android.R.color.black)

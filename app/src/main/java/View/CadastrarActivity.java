@@ -20,15 +20,13 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 import Model.ConfigFirebase;
 import Model.Usuario;
 
 public class CadastrarActivity extends AppCompatActivity {
 
     private EditText txtNome, txtEmail, txtSenha;
-    private Button btnRealizarCadastro;
+    private Button btnCadastro;
     private FirebaseAuth autenticacao;
     private Usuario usuario;
 
@@ -40,9 +38,9 @@ public class CadastrarActivity extends AppCompatActivity {
         txtNome = findViewById(R.id.txtNome);
         txtEmail = findViewById(R.id.txtEmail);
         txtSenha = findViewById(R.id.txtSenha);
-        btnRealizarCadastro = findViewById(R.id.btnRealizarCadastro);
+        btnCadastro = findViewById(R.id.btnCadastro);
 
-        btnRealizarCadastro.setOnClickListener(new View.OnClickListener() {
+        btnCadastro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String campoNome = txtNome.getText().toString();
@@ -50,28 +48,27 @@ public class CadastrarActivity extends AppCompatActivity {
                 String campoSenha = txtSenha.getText().toString();
 
                 //Validação
-                if (!campoNome.isEmpty()) {
-                    if (!campoEmail.isEmpty()) {
+                if (!campoNome.isEmpty())
+                    if (!campoEmail.isEmpty())
                         if (!campoSenha.isEmpty()) {
+
                             usuario = new Usuario();
                             usuario.setNome(campoNome);
                             usuario.setEmail(campoEmail);
                             usuario.setSenha(campoSenha);
                             cadastrarUsuario();
 
-                        } else {
-                            Toast.makeText(CadastrarActivity.this,
-                                    "Por favor, preencha a sua senha",
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
+                        } else Toast.makeText(CadastrarActivity.this,
+                                "Preencha a senha!",
+                                Toast.LENGTH_SHORT).show();
+                    else {
                         Toast.makeText(CadastrarActivity.this,
-                                "Por favor, preencha o seu Email",
+                                "Preencha o email!",
                                 Toast.LENGTH_SHORT).show();
                     }
-                } else {
+                else {
                     Toast.makeText(CadastrarActivity.this,
-                            "Por favor, preencha o seu Nome",
+                            "Preencha o nome!",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -90,19 +87,17 @@ public class CadastrarActivity extends AppCompatActivity {
                             "Cadastrado com sucesso!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-
                     String excecao = "";
-
                     try {
-                        throw Objects.requireNonNull(Objects.requireNonNull(task.getException()));
+                        throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        excecao = ("Digite uma senha mais forte!");
+                        excecao = "Digite uma senha mais forte!";
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        excecao = ("Por favor digite um e-mail válido!");
+                        excecao = "Por favor digite um e-mail válido!";
                     } catch (FirebaseAuthUserCollisionException e) {
-                        excecao = ("Essa conta já foi cadastrada!");
+                        excecao = "Essa conta já foi cadastrada!";
                     } catch (Exception e) {
-                        excecao = ("Digite uma senha mais forte!" + e.getMessage());
+                        excecao = "Digite uma senha mais forte!" + e.getMessage();
                         e.printStackTrace();
                     }
                     Toast.makeText(CadastrarActivity.this,
