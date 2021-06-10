@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "455518591349",
+    "project_id": "lealappsteste",
+    "storage_bucket": "lealappsteste.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:455518591349:android:a7eabe47899e3e47ef5b3c",
+        "android_client_info": {
+          "package_name": "com.lucas.lealappsteste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "455518591349-2ckmogdik9crg5dbi4c5qhkp8cnmgrst.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lucas.lealappsteste",
+            "certificate_hash": "796bc2a0129dc7fabdeefdcc9c89dd8b61c0073b"
+          }
+        },
+        {
+          "client_id": "455518591349-9pp26flquk6459oupc8piquhf9ak9kkj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDunLihUz0KYOyjlo3GhWaDQPP463CPnxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455518591349-9pp26flquk6459oupc8piquhf9ak9kkj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
