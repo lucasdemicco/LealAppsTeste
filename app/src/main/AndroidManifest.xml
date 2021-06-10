@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LealAppsTeste">
         <activity android:name="View.MainActivity"
-            android:screenOrientation="sensor"/>
+            android:screenOrientation="sensor" />
         <activity
             android:name="View.CadastrarActivity"
             android:screenOrientation="sensor" />

@@ -59,11 +59,11 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="40dp"
-        android:onClick="realizarCadastro"
         android:text="REALIZAR CADASTRO"
         android:textColor="@color/laranjaCustom"
         app:backgroundTint="#00FFFFFF"
         app:strokeColor="#FFA500"
-        app:strokeWidth="3dp" />
+        app:strokeWidth="3dp"
+        tools:ignore="OnClick" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

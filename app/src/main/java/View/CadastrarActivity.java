@@ -20,6 +20,8 @@ import android.widget.Toast;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 import Model.ConfigFirebase;
 import Model.Usuario;
 
@@ -76,7 +78,6 @@ public class CadastrarActivity extends AppCompatActivity {
         });
     }
 
-
     public void cadastrarUsuario() {
         autenticacao = ConfigFirebase.getFirebaseAutenticacao();
         autenticacao.createUserWithEmailAndPassword(
@@ -93,7 +94,7 @@ public class CadastrarActivity extends AppCompatActivity {
                     String excecao = "";
 
                     try {
-                        throw task.getException();
+                        throw Objects.requireNonNull(Objects.requireNonNull(task.getException()));
                     } catch (FirebaseAuthWeakPasswordException e) {
                         excecao = ("Digite uma senha mais forte!");
                     } catch (FirebaseAuthInvalidCredentialsException e) {
