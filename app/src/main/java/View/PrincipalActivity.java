@@ -8,24 +8,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.lucas.lealappsteste.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnMonthChangedListener;
-
+import org.jetbrains.annotations.NotNull;
+import Controller.Base64Custom;
 import Controller.ConfigFirebase;
+import Model.Usuario;
 
 public class PrincipalActivity extends AppCompatActivity {
 
     private MaterialCalendarView calendarView;
     private TextView txtSaudacao;
-    private FirebaseAuth autenticacao;
+    private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+
+    private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
+
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -37,6 +44,7 @@ public class PrincipalActivity extends AppCompatActivity {
 
         calendarView = findViewById(R.id.calendarView);
         configuraCalendarView();
+        recuperarTreino();
     }
 
     public void configuraCalendarView(){
@@ -54,6 +62,26 @@ public class PrincipalActivity extends AppCompatActivity {
         });
     }
 
+    public void recuperarTreino(){
+        String emailUsusario = autenticacao.getCurrentUser().getEmail();
+        String idUsuario = Base64Custom.codificarBase64(emailUsusario);
+        DatabaseReference usuarioRef = firebaseRef.child("Usuarios").child(idUsuario);
+
+        usuarioRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                 Usuario usuario = snapshot.getValue(Usuario.class);
+                     txtSaudacao.setText("Olá" + usuario.getNome());
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,7 +94,6 @@ public class PrincipalActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.menuSair:
-                autenticacao = ConfigFirebase.getFirebaseAutenticacao();
                 autenticacao.signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();

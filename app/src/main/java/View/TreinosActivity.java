@@ -34,7 +34,6 @@ import Controller.ConfigFirebase;
 import Controller.Permissoes;
 import Model.DateUtil;
 import Model.Treino;
-import Model.Usuario;
 
 public class TreinosActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -183,7 +182,7 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
         usuarioRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                Usuario usuario = snapshot.getValue(Usuario.class);
+                
             }
 
             @Override
