@@ -9,7 +9,7 @@ import Controller.ConfigFirebase;
 public class Treino {
 
     private String data;
-    private String nome;
+    private String nomeTreino;
     private String descricao;
 
     public Treino() {
@@ -39,11 +39,11 @@ public class Treino {
     }
 
     public String getNome() {
-        return nome;
+        return nomeTreino;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nomeTreino = nome;
     }
 
     public String getDescricao() {

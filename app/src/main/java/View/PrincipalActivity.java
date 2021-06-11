@@ -33,7 +33,6 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
 
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +67,12 @@ public class PrincipalActivity extends AppCompatActivity {
         DatabaseReference usuarioRef = firebaseRef.child("Usuarios").child(idUsuario);
 
         usuarioRef.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                 Usuario usuario = snapshot.getValue(Usuario.class);
-                     txtSaudacao.setText("Olá" + usuario.getNome());
+                Usuario usuario = snapshot.getValue(Usuario.class);
+                if (usuario != null) {
+                    txtSaudacao.setText("Olá, " + usuario.getNome() );
+                }
             }
 
             @Override

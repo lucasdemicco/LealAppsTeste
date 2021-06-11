@@ -18,10 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.lucas.lealappsteste.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -29,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-import Controller.Base64Custom;
 import Controller.ConfigFirebase;
 import Controller.Permissoes;
 import Model.DateUtil;
@@ -59,7 +55,6 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
         txtData = findViewById(R.id.txtData);
         txtData.setText(DateUtil.dataAtual());
-        recuperarTreino();
 
         txtDescricao = findViewById(R.id.txtDescricao);
         txttxtNomeTreino = findViewById(R.id.txtNomeTreino);
@@ -172,23 +167,5 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
                     Toast.LENGTH_SHORT).show();
             return false;
         }
-    }
-
-    public void recuperarTreino(){
-        String emailUsusario = autenticacao.getCurrentUser().getEmail();
-        String idUsuario = Base64Custom.codificarBase64(emailUsusario);
-        DatabaseReference usuarioRef = firebaseRef.child("Usuarios").child(idUsuario);
-
-        usuarioRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
     }
 }
