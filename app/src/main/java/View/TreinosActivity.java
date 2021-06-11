@@ -10,12 +10,18 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.lucas.lealappsteste.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,8 +29,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import Controller.Base64Custom;
+import Controller.ConfigFirebase;
 import Controller.Permissoes;
 import Model.DateUtil;
+import Model.Treino;
+import Model.Usuario;
 
 public class TreinosActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,6 +48,11 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
     private List<String> listaFotosRecuperadas = new ArrayList<>();
 
+    private Treino treino;
+
+    private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
+    private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +60,7 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
         txtData = findViewById(R.id.txtData);
         txtData.setText(DateUtil.dataAtual());
+        recuperarTreino();
 
         txtDescricao = findViewById(R.id.txtDescricao);
         txttxtNomeTreino = findViewById(R.id.txtNomeTreino);
@@ -116,5 +132,64 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void salvarTreino(View view) {
+        if(validarCamposTreino() ){
+
+            treino = new Treino();
+            String data = txtData.getText().toString();
+            treino.setNome(txttxtNomeTreino.getText().toString());
+            treino.setDescricao(txtDescricao.getText().toString());
+            treino.setData(data);
+
+            treino.salvarTreino(data);
+        }
+    }
+
+    public Boolean validarCamposTreino(){
+        String txtNome = txttxtNomeTreino.getText().toString();
+        String data = txtData.getText().toString();
+        String descricao = txtDescricao.getText().toString();
+
+        if(! txtNome.isEmpty()){
+            if(! data.isEmpty()){
+                if(! descricao.isEmpty()){
+
+                    return true;
+
+                }else{
+                    Toast.makeText(TreinosActivity.this,
+                            "Preencha uma descrição",
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            }else{
+                Toast.makeText(TreinosActivity.this,
+                        "Preencha uma data",
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }else{
+            Toast.makeText(TreinosActivity.this,
+                    "Preencha o nome do Treino",
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+    }
+
+    public void recuperarTreino(){
+        String emailUsusario = autenticacao.getCurrentUser().getEmail();
+        String idUsuario = Base64Custom.codificarBase64(emailUsusario);
+        DatabaseReference usuarioRef = firebaseRef.child("Usuarios").child(idUsuario);
+
+        usuarioRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                Usuario usuario = snapshot.getValue(Usuario.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
     }
 }

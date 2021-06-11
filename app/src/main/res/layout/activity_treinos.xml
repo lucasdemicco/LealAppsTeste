@@ -103,7 +103,8 @@
         android:tint="@color/white"
         app:backgroundTint="#19981E"
         app:fabSize="normal"
-        app:menu_icon="@drawable/ic_baseline_check_24" />
+        app:menu_icon="@drawable/ic_baseline_check_24"
+        tools:ignore="UsingOnClickInXml" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>
