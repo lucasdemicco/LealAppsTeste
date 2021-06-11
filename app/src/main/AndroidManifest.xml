@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LealAppsTeste">
-        <activity android:name="View.AnotacoesActivity"></activity>
         <activity android:name="View.TreinosActivity" />
         <activity
             android:name="View.PrincipalActivity"

@@ -16,9 +16,93 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/Academias"
+            android:background="@drawable/academias"
             android:scaleType="centerCrop"/>
     </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/txtAddTreino"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_marginTop="20dp"
+        android:text="@string/adicionar_treino" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="25dp"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imgTreino"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/padrao"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:padding="16dp"
+        android:orientation="vertical">
+
+
+        <EditText
+            android:id="@+id/txtData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/ic_baseline_date_range_24"
+            android:ems="10"
+            android:hint="@string/data_do_treino"
+            android:inputType="date"/>
+
+        <EditText
+            android:id="@+id/txtNomeTreino"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/ic_baseline_create_24"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/nome_do_treino" />
+
+        <EditText
+            android:id="@+id/txtDescricao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:drawableLeft="@drawable/ic_baseline_article_24"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/descri_o" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdicionar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:clickable="true"
+        android:contentDescription="@string/todo"
+        android:focusable="true"
+        android:src="@drawable/ic_baseline_check_24"
+        android:tint="@color/white"
+        app:backgroundTint="#19981E"
+        app:fabSize="normal"
+        app:menu_icon="@drawable/ic_baseline_check_24" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

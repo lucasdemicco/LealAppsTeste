@@ -11,4 +11,9 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_principal">PrincipalActivity</string>
+    <string name="data_do_treino">Data do treino</string>
+    <string name="nome_do_treino">Nome do Treino</string>
+    <string name="descri_o">Descrição</string>
+    <string name="adicionar_treino">ADICIONAR TREINO</string>
+    <string name="todo">TODO</string>
 </resources>

@@ -36,10 +36,6 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
 
-    public void adicionarAnotacoes(View v) {
-        startActivity(new Intent(this, AnotacoesActivity.class));
-    }
-
     public void adicionarTreino(View v) {
         startActivity(new Intent(this, TreinosActivity.class));
     }
