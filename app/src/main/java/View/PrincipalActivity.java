@@ -1,12 +1,11 @@
 package View;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.lucas.lealappsteste.R;
 
 public class PrincipalActivity extends AppCompatActivity {
@@ -16,30 +15,32 @@ public class PrincipalActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        FloatingActionButton treino = findViewById(R.id.fabTreino);
+        /*FloatingActionButton treino = findViewById(R.id.fabTreino);
         treino.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
-        FloatingActionButton anotacoes = findViewById(R.id.fabAnotacoes);
+       /* FloatingActionButton anotacoes = findViewById(R.id.fabAnotacoes);
         anotacoes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "",Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
-    }
-
-
-    public void adicionarAnotacoes(View view) {
+        }); */
 
     }
 
-    public void adicionarTreino(View view) {
+
+    public void adicionarAnotacoes(View v) {
+        startActivity(new Intent(this, AnotacoesActivity.class));
+    }
+
+    public void adicionarTreino(View v) {
+        startActivity(new Intent(this, TreinosActivity.class));
     }
 }
