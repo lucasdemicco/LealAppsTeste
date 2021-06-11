@@ -32,6 +32,8 @@ public class PrincipalActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
 
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
+    private DatabaseReference usuarioRef;
+    private ValueEventListener valueEventListenerUsuario;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -43,6 +45,11 @@ public class PrincipalActivity extends AppCompatActivity {
 
         calendarView = findViewById(R.id.calendarView);
         configuraCalendarView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         recuperarTreino();
     }
 
@@ -64,9 +71,9 @@ public class PrincipalActivity extends AppCompatActivity {
     public void recuperarTreino(){
         String emailUsusario = autenticacao.getCurrentUser().getEmail();
         String idUsuario = Base64Custom.codificarBase64(emailUsusario);
-        DatabaseReference usuarioRef = firebaseRef.child("Usuarios").child(idUsuario);
+        usuarioRef = firebaseRef.child("Usuarios").child(idUsuario);
 
-        usuarioRef.addValueEventListener(new ValueEventListener() {
+        valueEventListenerUsuario = usuarioRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 Usuario usuario = snapshot.getValue(Usuario.class);
@@ -105,5 +112,11 @@ public class PrincipalActivity extends AppCompatActivity {
 
     public void adicionarTreino(View v) {
         startActivity(new Intent(this, TreinosActivity.class));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        usuarioRef.removeEventListener(valueEventListenerUsuario);
     }
 }
