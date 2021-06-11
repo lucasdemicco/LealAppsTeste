@@ -7,31 +7,19 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.lucas.lealappsteste.R;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 public class PrincipalActivity extends AppCompatActivity {
+
+    private MaterialCalendarView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal);
 
-        /*FloatingActionButton treino = findViewById(R.id.fabTreino);
-        treino.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+        calendarView = findViewById(R.id.calendarView);
 
-       /* FloatingActionButton anotacoes = findViewById(R.id.fabAnotacoes);
-        anotacoes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "",Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        }); */
 
     }
 
