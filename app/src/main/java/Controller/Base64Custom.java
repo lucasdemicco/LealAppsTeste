@@ -11,6 +11,6 @@ public class Base64Custom {
     }
 
     public static String decodificarBase64(String textoCodificado){
-        return new String(Base64.decode(textoCodificado, Base64.DEFAULT););
+        return new String(Base64.decode(textoCodificado, Base64.DEFAULT));
     }
 }

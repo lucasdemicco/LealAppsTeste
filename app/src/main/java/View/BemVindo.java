@@ -60,7 +60,7 @@ public class BemVindo extends IntroActivity {
 
     public void deslogarUsuario(){
         autenticacao = ConfigFirebase.getFirebaseAutenticacao();
-        autenticacao.signOut();
+        //autenticacao.signOut();
     }
 
     public void abrirTelaPrincipal(){

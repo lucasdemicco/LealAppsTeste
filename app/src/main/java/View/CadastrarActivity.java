@@ -20,6 +20,7 @@ import com.lucas.lealappsteste.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import Controller.Base64Custom;
 import Controller.ConfigFirebase;
 import Model.Usuario;
 
@@ -87,7 +88,9 @@ public class CadastrarActivity extends AppCompatActivity {
                             "Cadastrado com sucesso!",
                             Toast.LENGTH_SHORT).show();
 
-
+                    String idUsuario = Base64Custom.codificarBase64(usuario.getEmail());
+                    usuario.setIdUsuario(idUsuario);
+                    usuario.salvar();
 
                     finish();
                 } else {
