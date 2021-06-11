@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -23,12 +24,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Controller.Permissoes;
+import Model.DateUtil;
 
 public class TreinosActivity extends AppCompatActivity implements View.OnClickListener {
 
+    private EditText txtData, txttxtNomeTreino, txtDescricao;
     private ImageView imgTreino;
 
-    private String [] permissoes = new String[]{
+    private String[] permissoes = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.CAMERA
     };
@@ -40,6 +43,12 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_treinos);
 
+        txtData = findViewById(R.id.txtData);
+        txtData.setText(DateUtil.dataAtual());
+
+        txtDescricao = findViewById(R.id.txtDescricao);
+        txttxtNomeTreino = findViewById(R.id.txtNomeTreino);
+
         imgTreino = findViewById(R.id.imgTreino);
         imgTreino.setOnClickListener(this);
 
@@ -49,14 +58,14 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imgTreino:
                 escolherImagem(1);
                 break;
         }
     }
 
-    public void escolherImagem(int requestCode){
+    public void escolherImagem(int requestCode) {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, requestCode);
     }
@@ -66,12 +75,12 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
         super.onActivityResult(requestCode, resultCode, data);
 
         //Recuperar Imagem
-        if(resultCode == Activity.RESULT_OK){
+        if (resultCode == Activity.RESULT_OK) {
             Uri imagemSelecionada = data.getData();
             String caminhoImagem = imagemSelecionada.toString();
 
             //Configurar imagem no IMageView
-            if(requestCode == 1){
+            if (requestCode == 1) {
                 imgTreino.setImageURI(imagemSelecionada);
                 listaFotosRecuperadas.add(caminhoImagem);
             }
@@ -82,14 +91,14 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
     public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        for(int permissaoResultado : grantResults){
-            if(permissaoResultado == getPackageManager().PERMISSION_DENIED){
+        for (int permissaoResultado : grantResults) {
+            if (permissaoResultado == getPackageManager().PERMISSION_DENIED) {
                 alertaPermissao();
             }
         }
     }
 
-    public void alertaPermissao(){
+    public void alertaPermissao() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Permissões negadas");
         builder.setMessage("Para utilizar é necessário aceitar as permissões");
