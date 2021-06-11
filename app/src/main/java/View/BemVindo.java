@@ -9,7 +9,7 @@ import com.heinrichreimersoftware.materialintro.app.IntroActivity;
 import com.heinrichreimersoftware.materialintro.slide.FragmentSlide;
 import com.lucas.lealappsteste.R;
 
-import Model.ConfigFirebase;
+import Controller.ConfigFirebase;
 
 public class BemVindo extends IntroActivity {
 

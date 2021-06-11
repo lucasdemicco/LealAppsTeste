@@ -20,7 +20,7 @@ import com.lucas.lealappsteste.R;
 
 import org.jetbrains.annotations.NotNull;
 
-import Model.ConfigFirebase;
+import Controller.ConfigFirebase;
 import Model.Usuario;
 
 public class CadastrarActivity extends AppCompatActivity {

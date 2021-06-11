@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LealAppsTeste">
-        <activity android:name="View.PrincipalActivity"
+        <activity
+            android:name="View.PrincipalActivity"
+            android:label="@string/title_activity_principal"
+            android:theme="@style/Theme.LealAppsTeste.NoActionBar"
             android:screenOrientation="sensor"/>
         <activity
             android:name="View.CadastrarActivity"
