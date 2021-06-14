@@ -24,11 +24,11 @@ public class Treino {
         String idUsuario = Base64Custom.codificarBase64(autenticacao.getCurrentUser().getEmail());
         String mesAno = DateUtil.mesAnoDataEscolhida(dataEscolhida);
 
-        DatabaseReference firebase = ConfigFirebase.getFirebaseDatabase();
-        firebase.child("Treinos")
+        DatabaseReference treinoRef = ConfigFirebase.getFirebaseDatabase();
+        treinoRef.child("Treinos")
                 .child(idUsuario)
                 .child(mesAno)
-                .push()
+                .child(getIdTreino())
                 .setValue(this);
     }
 
@@ -63,6 +63,7 @@ public class Treino {
     public void setIdTreino(String idTreino) {
         this.idTreino = idTreino;
     }
+
 
 }
 

@@ -129,7 +129,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 excluirTreino(viewHolder);
             }
         };
-            new ItemTouchHelper( itemTouch).attachToRecyclerView(RecyclerTreinos);
+        new ItemTouchHelper( itemTouch).attachToRecyclerView(RecyclerTreinos);
     }
 
     ///////////////////////////////////////////

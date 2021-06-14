@@ -185,9 +185,9 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
                     imagemRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<Uri> task) {
-                                Toast.makeText(TreinosActivity.this,
-                                        "Sucesso ao fazer upload",
-                                        Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TreinosActivity.this,
+                                    "Sucesso ao fazer upload",
+                                    Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
