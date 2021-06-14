@@ -153,6 +153,7 @@ public class PrincipalActivity extends AppCompatActivity {
     //RECUPERAR
     ///////////////////////////////////////////
     public void recuperarTreino(){
+
         String emailUsuario = autenticacao.getCurrentUser().getEmail();
         String idUsuario = Base64Custom.codificarBase64(emailUsuario);
         usuarioRef = firebaseRef.child("Treinos")

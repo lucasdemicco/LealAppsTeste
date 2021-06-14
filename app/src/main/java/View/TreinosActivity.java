@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,13 +18,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.lucas.lealappsteste.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +52,7 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
     private List<String> listaFotosRecuperadas = new ArrayList<>();
 
+
     private Treino treino;
 
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
@@ -56,6 +65,8 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_treinos);
 
         iniciarComponentes();
+
+        storage = ConfigFirebase.getFirebaseStorage();
 
         //Validar permissões
         Permissoes.validarPermissoes(permissoes, this, 1);
@@ -117,7 +128,11 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
             if (requestCode == 1) {
                 imgTreino.setImageURI(imagemSelecionada);
             }
+
+            FirebaseAuth usuario = ConfigFirebase.getFirebaseAutenticacao();
+            usuario.getCurrentUser().getEmail();
             listaFotosRecuperadas.add(caminhoImagem);
+
         }
     }
 
@@ -132,7 +147,6 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-
     public void salvarTreino(View view) {
         if(validarCamposTreino() ){
             treino = new Treino();
@@ -141,7 +155,50 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
             treino.setDescricao(txtDescricao.getText().toString());
             treino.setData(data);
             treino.salvarTreino(data);
+
             startActivity(new Intent(this, PrincipalActivity.class));
+
+            //Configurar imagem na memória
+            imgTreino.setDrawingCacheEnabled(true);
+            imgTreino.buildDrawingCache();
+
+            //Recuperar bitmap
+            Bitmap bitmap = imgTreino.getDrawingCache();
+
+            //Comprimir bitmap
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 75, baos );
+
+            //Conversão de Baos para pixels
+            byte[] dadosImagem = baos.toByteArray();
+
+            //Nós Storage
+            storage = FirebaseStorage.getInstance().getReference();
+            StorageReference imagens = storage.child("imagens");
+            StorageReference imagemRef = imagens.child("imagem");
+
+            //Retorna obj que controla upload
+            UploadTask uploadTask = imagemRef.putBytes(dadosImagem);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imagemRef.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull @NotNull Task<Uri> task) {
+                                Toast.makeText(TreinosActivity.this,
+                                        "Sucesso ao fazer upload",
+                                        Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull @NotNull Exception e) {
+                    Toast.makeText(TreinosActivity.this,
+                            "Falha ao fazer upload",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
             finish();
         }
     }
@@ -155,7 +212,6 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
             if (!txtNome.isEmpty()) {
                 if (!data.isEmpty()) {
                     if (!descricao.isEmpty()) {
-
                         return true;
 
                     } else {
