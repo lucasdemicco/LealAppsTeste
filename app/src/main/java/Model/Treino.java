@@ -14,7 +14,7 @@ public class Treino {
     private String data;
     private String nomeTreino;
     private String descricao;
-    private List<String> foto;
+    private List<String> fotos;
 
     public Treino() {
         DatabaseReference treinoRef = ConfigFirebase.getFirebaseDatabase()
@@ -69,19 +69,19 @@ public class Treino {
         this.descricao = descricao;
     }
 
-    public List<String> getFoto() {
-        return foto;
-    }
-
-    public void setFoto(List<String> foto) {
-        this.foto = foto;
-    }
-
     public String getIdTreino() {
         return idTreino;
     }
 
     public void setIdTreino(String idTreino) {
         this.idTreino = idTreino;
+    }
+
+    public List<String> getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(List<String> fotos) {
+        this.fotos = fotos;
     }
 }

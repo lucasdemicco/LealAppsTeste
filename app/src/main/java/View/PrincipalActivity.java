@@ -43,16 +43,16 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private final FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
     private final DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
-    private DatabaseReference usuarioRef, treinoRef;
-    private ValueEventListener valueEventListenerUsuario;
-    private String mesAnoSelecionado;
 
-    private RecyclerView RecyclerTreinos;
-    private AdapterRecycler adapterTreino;
+    private DatabaseReference usuarioRef;
+
+    private ValueEventListener valueEventListenerUsuario;
 
     private Treino treino;
     private final List<Treino> treinos = new ArrayList<>();
-
+    private RecyclerView RecyclerTreinos;
+    private AdapterRecycler adapterTreino;
+    private String mesAnoSelecionado;
 
     private MaterialCalendarView calendarView;
 
@@ -80,6 +80,34 @@ public class PrincipalActivity extends AppCompatActivity {
         swipe();
     }
 
+    ///////////////////////////////////////////
+    // MENU
+    ///////////////////////////////////////////
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menuprincipal, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menuSair:
+                autenticacao.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    ///////////////////////////////////////////
+    //EFEITO SWIPE
+    ///////////////////////////////////////////
+
+
     public void swipe(){
 
         ItemTouchHelper.Callback itemTouch = new ItemTouchHelper.Callback() {
@@ -103,6 +131,59 @@ public class PrincipalActivity extends AppCompatActivity {
         };
             new ItemTouchHelper( itemTouch).attachToRecyclerView(RecyclerTreinos);
     }
+
+    ///////////////////////////////////////////
+    //AÇÕES DE TREINO
+    //ADICIONAR
+    ///////////////////////////////////////////
+
+
+    public void adicionarTreino(View v) {
+        startActivity(new Intent(this, TreinosActivity.class));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        recuperarTreino();
+    }
+
+    ///////////////////////////////////////////
+    //AÇÕES DE TREINO
+    //RECUPERAR
+    ///////////////////////////////////////////
+    public void recuperarTreino(){
+        String emailUsuario = autenticacao.getCurrentUser().getEmail();
+        String idUsuario = Base64Custom.codificarBase64(emailUsuario);
+        usuarioRef = firebaseRef.child("Treinos")
+                .child(idUsuario)
+                .child(mesAnoSelecionado);
+
+        valueEventListenerUsuario = usuarioRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                treinos.clear();
+                for(DataSnapshot dados : snapshot.getChildren()){
+                    Treino treino = dados.getValue(Treino.class);
+                    treino.setIdTreino(dados.getKey());
+                    treinos.add(treino);
+                }
+                Collections.reverse(treinos);
+                adapterTreino.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    ///////////////////////////////////////////
+    //AÇÕES DE TREINO
+    //EXCLUIR
+    ///////////////////////////////////////////
 
     public void excluirTreino(RecyclerView.ViewHolder viewHolder){
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
@@ -142,6 +223,10 @@ public class PrincipalActivity extends AppCompatActivity {
         alert.show();
     }
 
+    ///////////////////////////////////////////
+    //CALENDÁRIO
+    //CONFIGURAÇÕES
+    ///////////////////////////////////////////
     public void configuraCalendarView(){
 
         CharSequence meses [] = {"Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"};
@@ -156,68 +241,15 @@ public class PrincipalActivity extends AppCompatActivity {
             public void onMonthChanged(MaterialCalendarView widget, CalendarDay date) {
                 String mesSelecionado = String.format("%01d", ((date.getMonth() + 1)) );
                 mesAnoSelecionado = String.valueOf( mesSelecionado + "" + date.getYear() );
+
                 recuperarTreino();
             }
         });
     }
 
-
-    public void recuperarTreino(){
-        String emailUsusario = autenticacao.getCurrentUser().getEmail();
-        String idUsuario = Base64Custom.codificarBase64(emailUsusario);
-        usuarioRef = firebaseRef.child("Treinos")
-                .child(idUsuario)
-                .child(mesAnoSelecionado);
-
-        valueEventListenerUsuario = usuarioRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-               treinos.clear();
-               for(DataSnapshot dados : snapshot.getChildren()){
-                   Treino treino = dados.getValue(Treino.class);
-                   treino.setIdTreino(dados.getKey());
-                   treinos.add(treino);
-               }
-                Collections.reverse(treinos);
-                    adapterTreino.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menuprincipal, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.menuSair:
-                autenticacao.signOut();
-                startActivity(new Intent(this, LoginActivity.class));
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    public void adicionarTreino(View v) {
-        startActivity(new Intent(this, TreinosActivity.class));
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        recuperarTreino();
-    }
+    ///////////////////////////////////////////
+    //ESTADO DE PARADA DA APLICAÇÃO
+    ///////////////////////////////////////////
 
     @Override
     protected void onStop() {

@@ -48,9 +48,9 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             app:mcv_tileSize="50dp"
-            app:mcv_showOtherDates="all"
-            app:mcv_selectionColor="#00F"
-            />
+        app:mcv_showOtherDates="all"
+        app:mcv_selectionColor="#00F"
+        />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RecyclerTreinos"
