@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.StorageReference;
 import com.lucas.lealappsteste.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,12 +48,20 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
     private DatabaseReference firebaseRef = ConfigFirebase.getFirebaseDatabase();
     private FirebaseAuth autenticacao = ConfigFirebase.getFirebaseAutenticacao();
+    private StorageReference storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_treinos);
 
+        iniciarComponentes();
+
+        //Validar permissões
+        Permissoes.validarPermissoes(permissoes, this, 1);
+    }
+
+    public void iniciarComponentes(){
         txtData = findViewById(R.id.txtData);
         txtData.setText(DateUtil.dataAtual());
 
@@ -61,10 +70,8 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
         imgTreino = findViewById(R.id.imgTreino);
         imgTreino.setOnClickListener(this);
-
-        //Validar permissões
-        Permissoes.validarPermissoes(permissoes, this, 1);
     }
+
 
     @Override
     public void onClick(View v) {
@@ -72,39 +79,6 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.imgTreino:
                 escolherImagem(1);
                 break;
-        }
-    }
-
-    public void escolherImagem(int requestCode) {
-        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(i, requestCode);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        //Recuperar Imagem
-        if (resultCode == Activity.RESULT_OK) {
-            Uri imagemSelecionada = data.getData();
-            String caminhoImagem = imagemSelecionada.toString();
-
-            //Configurar imagem no IMageView
-            if (requestCode == 1) {
-                imgTreino.setImageURI(imagemSelecionada);
-                listaFotosRecuperadas.add(caminhoImagem);
-            }
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        for (int permissaoResultado : grantResults) {
-            if (permissaoResultado == getPackageManager().PERMISSION_DENIED) {
-                alertaPermissao();
-            }
         }
     }
 
@@ -125,45 +99,86 @@ public class TreinosActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    public void escolherImagem(int requestCode) {
+        Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(i, requestCode);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        //Recuperar Imagem
+        if (resultCode == Activity.RESULT_OK) {
+            Uri imagemSelecionada = data.getData();
+            String caminhoImagem = imagemSelecionada.toString();
+
+            //Configurar imagem no IMageView
+            if (requestCode == 1) {
+                imgTreino.setImageURI(imagemSelecionada);
+            }
+            listaFotosRecuperadas.add(caminhoImagem);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        for (int permissaoResultado : grantResults) {
+            if (permissaoResultado == getPackageManager().PERMISSION_DENIED) {
+                alertaPermissao();
+            }
+        }
+    }
+
+
     public void salvarTreino(View view) {
         if(validarCamposTreino() ){
-
             treino = new Treino();
             String data = txtData.getText().toString();
             treino.setNome(txttxtNomeTreino.getText().toString());
             treino.setDescricao(txtDescricao.getText().toString());
             treino.setData(data);
-
             treino.salvarTreino(data);
+            startActivity(new Intent(this, PrincipalActivity.class));
+            finish();
         }
     }
 
-    public Boolean validarCamposTreino(){
+    public Boolean validarCamposTreino() {
         String txtNome = txttxtNomeTreino.getText().toString();
         String data = txtData.getText().toString();
         String descricao = txtDescricao.getText().toString();
 
-        if(! txtNome.isEmpty()){
-            if(! data.isEmpty()){
-                if(! descricao.isEmpty()){
+        if (listaFotosRecuperadas.size() != 0) {
+            if (!txtNome.isEmpty()) {
+                if (!data.isEmpty()) {
+                    if (!descricao.isEmpty()) {
 
-                    return true;
+                        return true;
 
-                }else{
+                    } else {
+                        Toast.makeText(TreinosActivity.this,
+                                "Preencha uma descrição",
+                                Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                } else {
                     Toast.makeText(TreinosActivity.this,
-                            "Preencha uma descrição",
+                            "Preencha uma data",
                             Toast.LENGTH_SHORT).show();
                     return false;
                 }
-            }else{
+            } else {
                 Toast.makeText(TreinosActivity.this,
-                        "Preencha uma data",
+                        "Preencha o nome do Treino",
                         Toast.LENGTH_SHORT).show();
                 return false;
             }
         }else{
             Toast.makeText(TreinosActivity.this,
-                    "Preencha o nome do Treino",
+                    "Foto não selecionada",
                     Toast.LENGTH_SHORT).show();
             return false;
         }
