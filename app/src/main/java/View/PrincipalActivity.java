@@ -1,15 +1,18 @@
 package View;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -46,7 +49,11 @@ public class PrincipalActivity extends AppCompatActivity {
 
     private RecyclerView RecyclerTreinos;
     private AdapterRecycler adapterTreino;
+
+    private Treino treino;
     private final List<Treino> treinos = new ArrayList<>();
+
+
     private MaterialCalendarView calendarView;
 
     public PrincipalActivity() {
@@ -91,10 +98,48 @@ public class PrincipalActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull @NotNull RecyclerView.ViewHolder viewHolder, int direction) {
-
+                excluirTreino(viewHolder);
             }
         };
             new ItemTouchHelper( itemTouch).attachToRecyclerView(RecyclerTreinos);
+    }
+
+    public void excluirTreino(RecyclerView.ViewHolder viewHolder){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Excluir treino");
+        alertDialog.setMessage("Você tem certeza que deseja excluir esse treino?");
+        alertDialog.setCancelable(false);
+
+        alertDialog.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                int position = viewHolder.getAdapterPosition();
+                treino = treinos.get(position);
+
+                String emailUsusario = autenticacao.getCurrentUser().getEmail();
+                String idUsuario = Base64Custom.codificarBase64(emailUsusario);
+                usuarioRef = firebaseRef.child("Treinos")
+                        .child(idUsuario)
+                        .child(mesAnoSelecionado);
+
+                usuarioRef.child( treino.getIdTreino() ).removeValue();
+                adapterTreino.notifyItemRemoved(position);
+
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(PrincipalActivity.this,
+                        "Exclusão cancelada",
+                        Toast.LENGTH_SHORT).show();
+                adapterTreino.notifyDataSetChanged();
+            }
+        });
+
+        AlertDialog alert = alertDialog.create();
+        alert.show();
     }
 
     public void configuraCalendarView(){
@@ -130,6 +175,7 @@ public class PrincipalActivity extends AppCompatActivity {
                treinos.clear();
                for(DataSnapshot dados : snapshot.getChildren()){
                    Treino treino = dados.getValue(Treino.class);
+                   treino.setIdTreino(dados.getKey());
                    treinos.add(treino);
                }
                 Collections.reverse(treinos);
