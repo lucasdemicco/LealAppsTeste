@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lucas.lealappsteste.R;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,11 +22,11 @@ import Model.Treino;
 
 public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyViewHolder> {
 
-    List<Treino> treinos;
-    Context context;
+    private List<Treino> treinoList;
+    private Context context;
 
-    public AdapterRecycler(List<Treino> treinos, Context context) {
-        this.treinos = treinos;
+    public AdapterRecycler(List<Treino> treino, Context context) {
+        this.treinoList = treino;
         this.context = context;
     }
 
@@ -40,27 +41,30 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyView
     @Override
     public void onBindViewHolder(@NonNull @NotNull AdapterRecycler.MyViewHolder holder, int position) {
 
-        Treino treino = treinos.get(position);
+        Treino treino = treinoList.get(position);
 
         holder.nomeTreino.setText(treino.getNome());
         holder.dataTreino.setText(treino.getData());
         holder.descricaoTreino.setText(treino.getDescricao());
 
+        List<String> urlFoto = treino.getFotos();
+        String foto = urlFoto.get(0);
+        Picasso.get().load(foto).into(holder.imgTreinoMain);
     }
 
     @Override
     public int getItemCount() {
-        return treinos.size();
+        return treinoList.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView nomeTreino, dataTreino, descricaoTreino;
-        ImageView imgTreino;
+        ImageView imgTreinoMain;
 
         public MyViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
-            imgTreino = itemView.findViewById(R.id.imgTreino);
+            imgTreinoMain = itemView.findViewById(R.id.imgTreinoMain);
             nomeTreino = itemView.findViewById(R.id.txtNomeTreino);
             dataTreino = itemView.findViewById(R.id.txtDataTreino);
             descricaoTreino = itemView.findViewById(R.id.txtDescricaoTreino);

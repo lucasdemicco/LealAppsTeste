@@ -3,6 +3,8 @@ package Model;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
+import java.util.List;
+
 import Controller.Base64Custom;
 import Controller.ConfigFirebase;
 
@@ -12,6 +14,7 @@ public class Treino {
     private String data;
     private String nomeTreino;
     private String descricao;
+    private List<String> fotos;
 
     public Treino() {
         DatabaseReference treinoRef = ConfigFirebase.getFirebaseDatabase()
@@ -24,9 +27,10 @@ public class Treino {
         String idUsuario = Base64Custom.codificarBase64(autenticacao.getCurrentUser().getEmail());
         String mesAno = DateUtil.mesAnoDataEscolhida(dataEscolhida);
 
-        DatabaseReference treinoRef = ConfigFirebase.getFirebaseDatabase();
-        treinoRef.child("Treinos")
-                .child(idUsuario)
+        DatabaseReference treinoRef = ConfigFirebase.getFirebaseDatabase()
+                .child("Treinos");
+
+        treinoRef.child(idUsuario)
                 .child(mesAno)
                 .child(getIdTreino())
                 .setValue(this);
@@ -60,10 +64,23 @@ public class Treino {
         return idTreino;
     }
 
+    public String getNomeTreino() {
+        return nomeTreino;
+    }
+
+    public void setNomeTreino(String nomeTreino) {
+        this.nomeTreino = nomeTreino;
+    }
+
+    public List<String> getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(List<String> fotos) {
+        this.fotos = fotos;
+    }
+
     public void setIdTreino(String idTreino) {
         this.idTreino = idTreino;
     }
-
-
 }
-

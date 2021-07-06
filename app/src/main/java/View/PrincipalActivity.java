@@ -49,7 +49,7 @@ public class PrincipalActivity extends AppCompatActivity {
     private ValueEventListener valueEventListenerUsuario;
 
     private Treino treino;
-    private final List<Treino> treinos = new ArrayList<>();
+    private final List<Treino> treinosList = new ArrayList<>();
     private RecyclerView RecyclerTreinos;
     private AdapterRecycler adapterTreino;
     private String mesAnoSelecionado;
@@ -69,7 +69,7 @@ public class PrincipalActivity extends AppCompatActivity {
         RecyclerTreinos = findViewById(R.id.RecyclerTreinos);
 
         //Adapter
-        adapterTreino = new AdapterRecycler(treinos, this);
+        adapterTreino = new AdapterRecycler(treinosList, this);
 
         //Config Recycler
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -164,13 +164,13 @@ public class PrincipalActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                treinos.clear();
+                treinosList.clear();
                 for(DataSnapshot dados : snapshot.getChildren()){
                     Treino treino = dados.getValue(Treino.class);
                     treino.setIdTreino(dados.getKey());
-                    treinos.add(treino);
+                    treinosList.add(treino);
                 }
-                Collections.reverse(treinos);
+                Collections.reverse(treinosList);
                 adapterTreino.notifyDataSetChanged();
             }
 
@@ -196,7 +196,7 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 int position = viewHolder.getAdapterPosition();
-                treino = treinos.get(position);
+                treino = treinosList.get(position);
 
                 String emailUsusario = autenticacao.getCurrentUser().getEmail();
                 String idUsuario = Base64Custom.codificarBase64(emailUsusario);
