@@ -14,8 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LealAppsTeste">
+
         <activity android:name="View.TreinosActivity"
-            android:screenOrientation="sensor"/>
+            android:screenOrientation="sensor"
+            android:parentActivityName="View.PrincipalActivity"/>
         <activity
             android:name="View.PrincipalActivity"
             android:label="Mutant | LealApps "

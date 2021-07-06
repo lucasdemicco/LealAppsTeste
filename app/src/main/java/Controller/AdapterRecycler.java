@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.lucas.lealappsteste.R;
-import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -48,8 +47,8 @@ public class AdapterRecycler extends RecyclerView.Adapter<AdapterRecycler.MyView
         holder.descricaoTreino.setText(treino.getDescricao());
 
         List<String> urlFoto = treino.getFotos();
-        String foto = urlFoto.get(0);
-        Picasso.get().load(foto).into(holder.imgTreinoMain);
+        //String foto = urlFoto.get(0);
+        //Picasso.get().load(foto).into(holder.imgTreinoMain);
     }
 
     @Override
